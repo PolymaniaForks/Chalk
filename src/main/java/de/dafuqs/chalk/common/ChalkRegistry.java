@@ -25,28 +25,31 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class ChalkRegistry {
-	private static final HashMap<DyeColor, Integer> dyeColors = new HashMap<>() {{
-		put(DyeColor.BLACK, 0x171717);
+	
+	// We use this map instead of the DyeColor enum
+	// in case a mod extends the DyeColor enum and stuff inevitably breaks
+	public static Map<DyeColor, Integer> dyeColors = new TreeMap<>() {{
+		put(DyeColor.WHITE, 0xFFFFFF);
+		put(DyeColor.ORANGE, 0xe16201);
+		put(DyeColor.MAGENTA, 0xaa32a0);
+		put(DyeColor.LIGHT_BLUE, 0x258ac8);
+		put(DyeColor.YELLOW, 0xf0ff15);
+		put(DyeColor.LIME, 0x5faa19);
+		put(DyeColor.PINK, 0xd6658f);
+		put(DyeColor.GRAY, 0x292929);
+		put(DyeColor.LIGHT_GRAY, 0x8b8b8b);
+		put(DyeColor.CYAN, 0x157687);
+		put(DyeColor.PURPLE, 0x641f9c);
 		put(DyeColor.BLUE, 0x2c2e8e);
 		put(DyeColor.BROWN, 0x613c20);
-		put(DyeColor.CYAN, 0x157687);
-		put(DyeColor.GRAY, 0x292929);
 		put(DyeColor.GREEN, 0x495b24);
-		put(DyeColor.LIGHT_BLUE, 0x258ac8);
-		put(DyeColor.LIGHT_GRAY, 0x8b8b8b);
-		put(DyeColor.LIME, 0x5faa19);
-		put(DyeColor.MAGENTA, 0xaa32a0);
-		put(DyeColor.ORANGE, 0xe16201);
-		put(DyeColor.PINK, 0xd6658f);
-		put(DyeColor.PURPLE, 0x641f9c);
 		put(DyeColor.RED, 0x8f2121);
-		put(DyeColor.WHITE, 0xFFFFFF);
-		put(DyeColor.YELLOW, 0xf0ff15);
+		put(DyeColor.BLACK, 0x171717);
 	}};
-	public static HashMap<DyeColor, ChalkRegistry.ChalkVariant> chalkVariants = new HashMap<>();
+	public static Map<DyeColor, ChalkRegistry.ChalkVariant> chalkVariants = new HashMap<>();
 
 	public static void init() {
 		Data.CURRENT_VERSION.sendToLog(Helper.LogType.INFO, "Registering blocks and items...");
@@ -56,8 +59,9 @@ public class ChalkRegistry {
 		 * while still having it configurable / backwards compatible
 		 */
 		ChalkRegistry.ChalkVariant chalkVariant;
-		for (DyeColor dyeColor : DyeColor.values()) {
-			int color = dyeColors.get(dyeColor);
+		for (Map.Entry<DyeColor, Integer> entry : dyeColors.entrySet()) {
+			DyeColor dyeColor = entry.getKey();
+			int color = entry.getValue();
 			if (dyeColor.equals(DyeColor.WHITE)) {
 				/* backwards compatibility */
 				chalkVariant = new ChalkRegistry.ChalkVariant(dyeColor, color, "");
