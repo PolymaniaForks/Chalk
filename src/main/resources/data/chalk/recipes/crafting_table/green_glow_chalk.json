@@ -16,7 +16,7 @@
     }
   ],
   "result": {
-    "item": "chalk:green_glow_chalk"
+    "id": "chalk:green_glow_chalk"
   },
   "fabric:load_conditions": [
     {

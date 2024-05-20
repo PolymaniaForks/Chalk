@@ -13,7 +13,7 @@
     }
   ],
   "result": {
-    "item": "chalk:black_chalk"
+    "id": "chalk:black_chalk"
   },
   "fabric:load_conditions": [
     {

@@ -7,7 +7,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.client.render.debug.*;
+import net.minecraft.entity.ai.pathing.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -55,12 +56,6 @@ public class ChalkMarkBlock extends Block {
 		this.setDefaultState(this.getDefaultState().with(FACING, Direction.NORTH).with(ORIENTATION, 0));
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
-		return true;
-	}
-
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		builder.add(FACING, ORIENTATION);
@@ -88,7 +83,6 @@ public class ChalkMarkBlock extends Block {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return switch (state.get(FACING)) {
@@ -101,26 +95,22 @@ public class ChalkMarkBlock extends Block {
 		};
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return VoxelShapes.empty();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
 		Direction facing = state.get(FACING);
 		return Block.isFaceFullSquare(world.getBlockState(pos.offset(facing.getOpposite())).getCollisionShape(world, pos.offset(facing)), facing);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		boolean support = neighborPos.equals(pos.offset(state.get(FACING).getOpposite()));
