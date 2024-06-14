@@ -55,7 +55,7 @@ public class ConfigScreen extends Screen {
 		GridWidget GRID = new GridWidget();
 		GRID.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder GRID_ADDER = GRID.createAdder(2);
-		GRID_ADDER.add(ButtonWidget.builder(Text.translatable("gui.chalk.config.emit_particles", ConfigHelper.getConfig("emit_particles")), (button) -> {
+		GRID_ADDER.add(ButtonWidget.builder(Text.translatable("gui.chalk.config.emit_particles", ConfigHelper.getConfig("emit_particles").toString()), (button) -> {
 			ConfigHelper.setConfig("emit_particles", !(boolean) ConfigHelper.getConfig("emit_particles"));
 			client.setScreen(new ConfigScreen(PARENT_SCREEN));
 		}).build()).setTooltip(Tooltip.of(Text.translatable("gui.chalk.config.emit_particles.hover"), Text.translatable("gui.chalk.config.emit_particles.hover")));
