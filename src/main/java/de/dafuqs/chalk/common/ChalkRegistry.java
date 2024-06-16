@@ -77,11 +77,11 @@ public class ChalkRegistry {
 	}
 
 	private static void registerBlock(String name, Block block) {
-		Registry.register(Registries.BLOCK, new Identifier(Data.CURRENT_VERSION.getID(), name), block);
+		Registry.register(Registries.BLOCK, Identifier.of(Data.CURRENT_VERSION.getID(), name), block);
 	}
 
 	private static void registerItem(String name, Item item) {
-		Registry.register(Registries.ITEM, new Identifier(Data.CURRENT_VERSION.getID(), name), item);
+		Registry.register(Registries.ITEM, Identifier.of(Data.CURRENT_VERSION.getID(), name), item);
 	}
 
 	private static boolean always(BlockState blockState, BlockView blockView, BlockPos blockPos) {
