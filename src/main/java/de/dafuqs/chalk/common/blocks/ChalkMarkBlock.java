@@ -1,40 +1,28 @@
 package de.dafuqs.chalk.common.blocks;
 
-import de.dafuqs.chalk.client.config.ConfigHelper;
-import de.dafuqs.chalk.common.ChalkRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.IntProperty;
+import de.dafuqs.chalk.common.*;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.*;
+import net.minecraft.entity.player.*;
+import net.minecraft.item.*;
+import net.minecraft.particle.*;
+import net.minecraft.sound.*;
+import net.minecraft.state.*;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
+import net.minecraft.state.property.*;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.*;
+import net.minecraft.world.*;
+import net.minecraft.world.tick.*;
+import org.jetbrains.annotations.*;
 
 public class ChalkMarkBlock extends Block {
 
 	protected DyeColor dyeColor;
 
-	public static final DirectionProperty FACING = Properties.FACING;
+	public static final EnumProperty<Direction> FACING = Properties.FACING;
 	public static final IntProperty ORIENTATION = IntProperty.of("orientation", 0, 8);
 
 	// Hitbox margin: 0 … 2 (Use 1.5D to create a look identical to previous versions)
@@ -64,20 +52,20 @@ public class ChalkMarkBlock extends Block {
 	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
 		super.afterBreak(world, player, pos, state, blockEntity, stack);
 	}
-
+	
 	@Override
-	public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
+	protected ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
 		return ChalkRegistry.chalkVariants.get(dyeColor).chalkItem.getDefaultStack();
 	}
 
 	@Override
 	protected void spawnBreakParticles(World world, PlayerEntity player, BlockPos pos, BlockState state) {
+		Random random = world.getRandom();
 		if (!world.isClient)
-			world.playSound(null, pos, SoundEvents.BLOCK_WART_BLOCK_HIT, SoundCategory.BLOCKS, 0.5f, new Random().nextFloat() * 0.2f + 0.8f);
+			world.playSound(null, pos, SoundEvents.BLOCK_WART_BLOCK_HIT, SoundCategory.BLOCKS, 0.5f, random.nextFloat() * 0.2f + 0.8f);
 		else {
-			Random r = new Random();
-			if ((boolean) ConfigHelper.getConfig("emit_particles"))
-				world.addParticle(ParticleTypes.CLOUD, pos.getX() + (0.5 * (r.nextFloat() + 0.15)), pos.getY() + 0.3, pos.getZ() + (0.5 * (r.nextFloat() + 0.15)), 0.0D, 0.0D, 0.0D);
+			if (Chalk.CONFIG.EmitParticles)
+				world.addParticle(ParticleTypes.CLOUD, pos.getX() + (0.5 * (random.nextFloat() + 0.15)), pos.getY() + 0.3, pos.getZ() + (0.5 * (random.nextFloat() + 0.15)), 0.0D, 0.0D, 0.0D);
 		}
 	}
 
@@ -108,9 +96,9 @@ public class ChalkMarkBlock extends Block {
 		Direction facing = state.get(FACING);
 		return Block.isFaceFullSquare(world.getBlockState(pos.offset(facing.getOpposite())).getCollisionShape(world, pos.offset(facing)), facing);
 	}
-
+	
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
 		boolean support = neighborPos.equals(pos.offset(state.get(FACING).getOpposite()));
 		if (support) {
 			if (!this.canPlaceAt(state, world, pos)) {
@@ -119,4 +107,5 @@ public class ChalkMarkBlock extends Block {
 		}
 		return state;
 	}
+	
 }

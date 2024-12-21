@@ -1,14 +1,29 @@
 package de.dafuqs.chalk.common;
 
-import com.mclegoman.releasetypeutils.common.version.Helper;
-import de.dafuqs.chalk.common.data.Data;
-import net.fabricmc.api.ModInitializer;
+import de.dafuqs.chalk.config.*;
+import me.shedaniel.autoconfig.*;
+import me.shedaniel.autoconfig.serializer.*;
+import net.fabricmc.api.*;
+import net.minecraft.util.*;
+import org.jetbrains.annotations.*;
 
 public class Chalk implements ModInitializer {
+	
+	public static final String MOD_ID = "chalk";
+	
+	public static ChalkConfig CONFIG;
+	
 	@Override
 	public void onInitialize() {
-		Data.CURRENT_VERSION.sendToLog(Helper.LogType.INFO, "Initializing Chalk...");
 		ChalkRegistry.init();
-		Data.CURRENT_VERSION.sendToLog(Helper.LogType.INFO, "Finished initializing Chalk!");
+		
+		AutoConfig.register(ChalkConfig.class, JanksonConfigSerializer::new);
+		CONFIG = AutoConfig.getConfigHolder(ChalkConfig.class).getConfig();
 	}
+	
+	@Contract(value = "_ -> new", pure = true)
+	public static @NotNull Identifier id(String name) {
+		return Identifier.of(MOD_ID, name);
+	}
+	
 }

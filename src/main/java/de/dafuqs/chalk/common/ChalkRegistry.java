@@ -1,29 +1,20 @@
 package de.dafuqs.chalk.common;
 
-import com.mclegoman.releasetypeutils.common.version.Helper;
-import de.dafuqs.chalk.common.blocks.ChalkMarkBlock;
-import de.dafuqs.chalk.common.blocks.GlowChalkMarkBlock;
-import de.dafuqs.chalk.common.data.CompatibilityData;
-import de.dafuqs.chalk.common.data.Data;
-import de.dafuqs.chalk.common.items.ChalkItem;
-import de.dafuqs.chalk.common.items.GlowChalkItem;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import de.dafuqs.chalk.common.blocks.*;
+import de.dafuqs.chalk.common.items.*;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.*;
+import net.fabricmc.fabric.api.client.rendering.v1.*;
+import net.fabricmc.fabric.api.itemgroup.v1.*;
+import net.fabricmc.loader.api.*;
+import net.minecraft.block.*;
+import net.minecraft.block.piston.*;
+import net.minecraft.client.render.*;
+import net.minecraft.item.*;
+import net.minecraft.registry.*;
+import net.minecraft.sound.*;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
 
 import java.util.*;
 
@@ -49,39 +40,33 @@ public class ChalkRegistry {
 		put(DyeColor.RED, 0x8f2121);
 		put(DyeColor.BLACK, 0x171717);
 	}};
+	
 	public static Map<DyeColor, ChalkRegistry.ChalkVariant> chalkVariants = new HashMap<>();
 
 	public static void init() {
-		Data.CURRENT_VERSION.sendToLog(Helper.LogType.INFO, "Registering blocks and items...");
+		boolean addonLoaded = FabricLoader.getInstance().isModLoaded("chalk-colorful-addon");
+		
 		/*
 		 * colored chalk variants are only added if the colorful addon is installed
 		 * this allows chalk to use the "chalk" mod to use the chalk namespace for all functionality
 		 * while still having it configurable / backwards compatible
 		 */
-		ChalkRegistry.ChalkVariant chalkVariant;
 		for (Map.Entry<DyeColor, Integer> entry : dyeColors.entrySet()) {
 			DyeColor dyeColor = entry.getKey();
 			int color = entry.getValue();
-			if (dyeColor.equals(DyeColor.WHITE)) {
-				/* backwards compatibility */
-				chalkVariant = new ChalkRegistry.ChalkVariant(dyeColor, color, "");
-				chalkVariant.register();
-				chalkVariants.put(dyeColor, chalkVariant);
-			} else if (CompatibilityData.COLORFUL_ADDON) {
-				/* if colourful addon present */
-				chalkVariant = new ChalkRegistry.ChalkVariant(dyeColor, color, dyeColor + "_");
-				chalkVariant.register();
-				chalkVariants.put(dyeColor, chalkVariant);
+			
+			if (dyeColor.equals(DyeColor.WHITE) || addonLoaded) {
+				new ChalkRegistry.ChalkVariant(dyeColor, color);
 			}
 		}
-	}
-
-	private static void registerBlock(String name, Block block) {
-		Registry.register(Registries.BLOCK, Identifier.of(Data.CURRENT_VERSION.getID(), name), block);
-	}
-
-	private static void registerItem(String name, Item item) {
-		Registry.register(Registries.ITEM, Identifier.of(Data.CURRENT_VERSION.getID(), name), item);
+		
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(fabricItemGroupEntries -> {
+			for(ChalkVariant chalkVariant1 : chalkVariants.values()) {
+				fabricItemGroupEntries.add(chalkVariant1.chalkItem);
+				fabricItemGroupEntries.add(chalkVariant1.glowChalkItem);
+			}
+		});
+		
 	}
 
 	private static boolean always(BlockState blockState, BlockView blockView, BlockPos blockPos) {
@@ -100,34 +85,33 @@ public class ChalkRegistry {
 		String colorString;
 		int color;
 
-		public ChalkVariant(DyeColor dyeColor, int color, String colorString) {
+		public ChalkVariant(DyeColor dyeColor, int color) {
 			this.color = color;
-			this.colorString = colorString;
-			this.chalkItem = new ChalkItem(new Item.Settings().maxCount(1).maxDamage(64), dyeColor);
-			this.chalkBlock = new ChalkMarkBlock(AbstractBlock.Settings.create().replaceable().noCollision().nonOpaque().sounds(BlockSoundGroup.GRAVEL).pistonBehavior(PistonBehavior.DESTROY), dyeColor);
-			this.glowChalkItem = new GlowChalkItem(new Item.Settings().maxCount(1).maxDamage(64), dyeColor);
-			this.glowChalkBlock = new GlowChalkMarkBlock(AbstractBlock.Settings.create().replaceable().noCollision().nonOpaque().sounds(BlockSoundGroup.GRAVEL)
-					.luminance((state) -> CompatibilityData.CONTINUITY ? 0 : 1)
-					.postProcess(CompatibilityData.CONTINUITY ? ChalkRegistry::never : ChalkRegistry::always)
-					.emissiveLighting(CompatibilityData.CONTINUITY ? ChalkRegistry::never : ChalkRegistry::always)
-					.pistonBehavior(PistonBehavior.DESTROY), dyeColor);
-			this.ItemGroups();
-		}
-
-		public void ItemGroups() {
-			/* Chalk ItemGroups: Functional Blocks, Tools and Utilities */
-			ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.add(this.chalkItem));
-			ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(this.chalkItem));
-			/* Glow Chalk ItemGroups: Functional Blocks, Tools and Utilities */
-			ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.add(this.glowChalkItem));
-			ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(this.glowChalkItem));
-		}
-
-		public void register() {
-			registerBlock(colorString + "chalk_mark", chalkBlock);
-			registerItem(colorString + "chalk", chalkItem);
-			registerBlock(colorString + "glow_chalk_mark", glowChalkBlock);
-			registerItem(colorString + "glow_chalk", glowChalkItem);
+			this.colorString = dyeColor.toString();
+			
+			Identifier itemId = Chalk.id(colorString + "_chalk");
+			Identifier blockId = Chalk.id(colorString + "_chalk_mark");
+			
+			Identifier glowItemId = Chalk.id(colorString + "_glow_chalk");
+			Identifier glowBlockId = Chalk.id(colorString + "_glow_chalk_mark");
+			
+			RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, itemId);
+			RegistryKey<Block> blockKey = RegistryKey.of(RegistryKeys.BLOCK, blockId);
+			
+			RegistryKey<Item> glowItemKey = RegistryKey.of(RegistryKeys.ITEM, glowItemId);
+			RegistryKey<Block> glowBlockKey = RegistryKey.of(RegistryKeys.BLOCK, glowBlockId);
+			
+			this.chalkItem = new ChalkItem(new Item.Settings().registryKey(itemKey).maxCount(1).maxDamage(64), dyeColor);
+			this.chalkBlock = new ChalkMarkBlock(AbstractBlock.Settings.create().registryKey(blockKey).replaceable().noCollision().nonOpaque().sounds(BlockSoundGroup.GRAVEL).pistonBehavior(PistonBehavior.DESTROY), dyeColor);
+			this.glowChalkItem = new GlowChalkItem(new Item.Settings().registryKey(glowItemKey).maxCount(1).maxDamage(64), dyeColor);
+			this.glowChalkBlock = new GlowChalkMarkBlock(AbstractBlock.Settings.create().registryKey(glowBlockKey).replaceable().noCollision().nonOpaque().sounds(BlockSoundGroup.GRAVEL).pistonBehavior(PistonBehavior.DESTROY), dyeColor);
+			
+			Registry.register(Registries.ITEM, itemId, chalkItem);
+			Registry.register(Registries.BLOCK, blockId, chalkBlock);
+			Registry.register(Registries.ITEM, glowItemId, glowChalkItem);
+			Registry.register(Registries.BLOCK, glowBlockId, glowChalkBlock);
+			
+			chalkVariants.put(dyeColor, this);
 		}
 
 		public void registerClient() {

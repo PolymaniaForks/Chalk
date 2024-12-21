@@ -1,7 +1,6 @@
 package de.dafuqs.chalk.common.items;
 
-import de.dafuqs.chalk.client.config.ConfigHelper;
-import de.dafuqs.chalk.common.ChalkRegistry;
+import de.dafuqs.chalk.common.*;
 import de.dafuqs.chalk.common.blocks.ChalkMarkBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -17,10 +16,9 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Random;
 
 public class ChalkItem extends Item {
 	protected DyeColor dyeColor;
@@ -52,9 +50,9 @@ public class ChalkItem extends Item {
 			}
 
 			if (world.isClient) {
-				Random r = new Random();
-				if ((boolean) ConfigHelper.getConfig("emit_particles"))
-					world.addParticle(ParticleTypes.CLOUD, markPosition.getX() + (0.5 * (r.nextFloat() + 0.4)), markPosition.getY() + 0.65, markPosition.getZ() + (0.5 * (r.nextFloat() + 0.4)), 0.0D, 0.005D, 0.0D);
+				Random random = world.getRandom();
+				if (Chalk.CONFIG.EmitParticles)
+					world.addParticle(ParticleTypes.CLOUD, markPosition.getX() + (0.5 * (random.nextFloat() + 0.4)), markPosition.getY() + 0.65, markPosition.getZ() + (0.5 * (random.nextFloat() + 0.4)), 0.0D, 0.005D, 0.0D);
 				return ActionResult.SUCCESS;
 			}
 
@@ -107,9 +105,9 @@ public class ChalkItem extends Item {
 		final double dz = frac(clickLocation.z);
 
 		return switch (face) {
-			default -> blockreg(Math.min(2, (int) (3 * dz)), Math.min(2, (int) (3 * dx)));
 			case NORTH, SOUTH -> blockreg(Math.min(2, (int) (3 * (1 - dy))), Math.min(2, (int) (3 * dx)));
 			case WEST, EAST -> blockreg(Math.min(2, (int) (3 * (1 - dy))), Math.min(2, (int) (3 * dz)));
+			default -> blockreg(Math.min(2, (int) (3 * dz)), Math.min(2, (int) (3 * dx)));
 		};
 	}
 }
