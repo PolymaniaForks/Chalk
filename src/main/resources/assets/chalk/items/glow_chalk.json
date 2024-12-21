@@ -1,6 +1,6 @@
 {
  "model": {
    "type": "minecraft:model",
-   "model": "chalk:item/glow_glow_chalk"
+   "model": "chalk:item/glow_chalk"
  }
 }
