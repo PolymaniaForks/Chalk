@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "group": "chalk:glow_chalk",
   "ingredients": [
-    {
-      "item": "minecraft:calcite"
-    },
-    {
-      "item": "minecraft:calcite"
-    },
-    {
-      "item": "minecraft:glow_ink_sac"
-    },
-    {
-      "item": "minecraft:cyan_dye"
-    }
+    "minecraft:calcite",
+    "minecraft:calcite",
+    "minecraft:glow_ink_sac",
+    "minecraft:cyan_dye"
   ],
   "result": {
     "id": "chalk:cyan_glow_chalk"

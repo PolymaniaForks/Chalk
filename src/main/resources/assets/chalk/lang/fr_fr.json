@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "Craie",
-  "block.chalk.chalk_mark": "Marque de craie",
-  "item.chalk.glow_chalk": "Craie luisante",
-  "block.chalk.glow_chalk_mark": "Marque de craie luisante",
+  "item.chalk.white_chalk": "Craie",
+  "block.chalk.white_chalk_mark": "Marque de craie",
+  "item.chalk.white_glow_chalk": "Craie luisante",
+  "block.chalk.white_glow_chalk_mark": "Marque de craie luisante",
 
   "item.chalk.red_chalk": "Craie rouge",
   "block.chalk.red_chalk_mark": "Marque de craie rouge",

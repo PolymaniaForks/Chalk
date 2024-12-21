@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "Křída",
-  "block.chalk.chalk_mark": "Křídová známka",
-  "item.chalk.glow_chalk": "Světélkující křída",
-  "block.chalk.glow_chalk_mark": "Světélkující křídová známka",
+  "item.chalk.white_chalk": "Křída",
+  "block.chalk.white_chalk_mark": "Křídová známka",
+  "item.chalk.white_glow_chalk": "Světélkující křída",
+  "block.chalk.white_glow_chalk_mark": "Světélkující křídová známka",
 
   "item.chalk.red_chalk": "Červená křída",
   "block.chalk.red_chalk_mark": "Červená křídová známka",

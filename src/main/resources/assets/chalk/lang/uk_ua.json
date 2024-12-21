@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "Крейда",
-  "block.chalk.chalk_mark": "Крейдова позначка",
-  "item.chalk.glow_chalk": "Сяйна крейда",
-  "block.chalk.glow_chalk_mark": "Сяйна крейдова позначка",
+  "item.chalk.white_chalk": "Крейда",
+  "block.chalk.white_chalk_mark": "Крейдова позначка",
+  "item.chalk.white_glow_chalk": "Сяйна крейда",
+  "block.chalk.white_glow_chalk_mark": "Сяйна крейдова позначка",
 
   "item.chalk.red_chalk": "Червона крейда",
   "block.chalk.red_chalk_mark": "Червона крейдова позначка",

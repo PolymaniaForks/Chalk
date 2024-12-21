@@ -18,7 +18,7 @@
     "issues": "https://github.com/DaFuqs/Chalk/issues"
   },
   "license": "MIT",
-  "icon": "assets/chalk/textures/item/chalk.png",
+  "icon": "white_chalk.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -28,14 +28,15 @@
       "de.dafuqs.chalk.common.Chalk"
     ],
     "modmenu": [
-      "de.dafuqs.chalk.compat.ChalkModMenu"
+      "de.dafuqs.chalk.client.ModMenuConfig"
     ]
   },
   "mixins": [],
   "depends": {
-    "minecraft": ">=1.21.1",
+    "minecraft": ">=${minecraft_version}",
+    "fabricloader": "*",
     "fabric-api": "*",
-    "fabric-simplelibs": "*"
+    "cloth-config": "*"
   },
   "suggests": {
     "chalk-colorful-addon": "*"

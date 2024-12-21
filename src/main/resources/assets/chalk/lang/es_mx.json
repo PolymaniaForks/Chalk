@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "Tiza",
-  "block.chalk.chalk_mark": "Marca de Tiza",
-  "item.chalk.glow_chalk": "Tiza Brillante",
-  "block.chalk.glow_chalk_mark": "Marca de Tiza Brillante",
+  "item.chalk.white_chalk": "Tiza",
+  "block.chalk.white_chalk_mark": "Marca de Tiza",
+  "item.chalk.white_glow_chalk": "Tiza Brillante",
+  "block.chalk.white_glow_chalk_mark": "Marca de Tiza Brillante",
 
   "item.chalk.red_chalk": "Tiza Roja",
   "block.chalk.red_chalk_mark": "Marca de Tiza Roja",

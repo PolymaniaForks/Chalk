@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "Chalk",
-  "block.chalk.chalk_mark": "Chalk Mark",
-  "item.chalk.glow_chalk": "Glow Chalk",
-  "block.chalk.glow_chalk_mark": "Glow Chalk Mark",
+  "item.chalk.white_chalk": "Chalk",
+  "block.chalk.white_chalk_mark": "Chalk Mark",
+  "item.chalk.white_glow_chalk": "Glow Chalk",
+  "block.chalk.white_glow_chalk_mark": "Glow Chalk Mark",
 
   "item.chalk.red_chalk": "Red Chalk",
   "block.chalk.red_chalk_mark": "Red Chalk Mark",

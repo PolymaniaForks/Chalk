@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "粉笔",
-  "block.chalk.chalk_mark": "粉笔标记",
-  "item.chalk.glow_chalk": "荧光粉笔",
-  "block.chalk.glow_chalk_mark": "荧光粉笔标记",
+  "item.chalk.white_chalk": "粉笔",
+  "block.chalk.white_chalk_mark": "粉笔标记",
+  "item.chalk.white_glow_chalk": "荧光粉笔",
+  "block.chalk.white_glow_chalk_mark": "荧光粉笔标记",
 
   "item.chalk.red_chalk": "红色粉笔",
   "block.chalk.red_chalk_mark": "红色粉笔标记",

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "group": "chalk:chalk",
   "ingredients": [
-    {
-      "item": "minecraft:calcite"
-    },
-    {
-      "item": "minecraft:calcite"
-    },
-    {
-      "item": "minecraft:cyan_dye"
-    }
+    "minecraft:calcite",
+    "minecraft:calcite",
+    "minecraft:cyan_dye"
   ],
   "result": {
     "id": "chalk:cyan_chalk"

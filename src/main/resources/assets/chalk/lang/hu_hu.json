@@ -1,8 +1,8 @@
 {
-  "item.chalk.chalk": "Kréta",
-  "block.chalk.chalk_mark": "Krétajel",
-  "item.chalk.glow_chalk": "Világító kréta",
-  "block.chalk.glow_chalk_mark": "Világító krétajel",
+  "item.chalk.white_chalk": "Kréta",
+  "block.chalk.white_chalk_mark": "Krétajel",
+  "item.chalk.white_glow_chalk": "Világító kréta",
+  "block.chalk.white_glow_chalk_mark": "Világító krétajel",
 
   "item.chalk.red_chalk": "Piros kréta",
   "block.chalk.red_chalk_mark": "Piros krétajel",
