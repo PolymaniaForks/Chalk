@@ -64,8 +64,9 @@ public class ChalkMarkBlock extends Block {
 		if (!world.isClient)
 			world.playSound(null, pos, SoundEvents.BLOCK_WART_BLOCK_HIT, SoundCategory.BLOCKS, 0.5f, random.nextFloat() * 0.2f + 0.8f);
 		else {
-			if (Chalk.CONFIG.EmitParticles)
-				world.addParticle(ParticleTypes.CLOUD, pos.getX() + (0.5 * (random.nextFloat() + 0.15)), pos.getY() + 0.3, pos.getZ() + (0.5 * (random.nextFloat() + 0.15)), 0.0D, 0.0D, 0.0D);
+			if (Chalk.CONFIG.EmitParticles) {
+				world.addParticleClient(ParticleTypes.CLOUD, pos.getX() + (0.5 * (random.nextFloat() + 0.15)), pos.getY() + 0.3, pos.getZ() + (0.5 * (random.nextFloat() + 0.15)), 0.0D, 0.0D, 0.0D);
+			}
 		}
 	}
 
