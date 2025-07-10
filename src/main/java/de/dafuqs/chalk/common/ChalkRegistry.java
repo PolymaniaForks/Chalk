@@ -2,7 +2,6 @@ package de.dafuqs.chalk.common;
 
 import de.dafuqs.chalk.common.blocks.*;
 import de.dafuqs.chalk.common.items.*;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.*;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
 import net.fabricmc.loader.api.*;
@@ -13,8 +12,6 @@ import net.minecraft.item.*;
 import net.minecraft.registry.*;
 import net.minecraft.sound.*;
 import net.minecraft.util.*;
-import net.minecraft.util.math.*;
-import net.minecraft.world.*;
 
 import java.util.*;
 
@@ -68,15 +65,7 @@ public class ChalkRegistry {
 		});
 		
 	}
-
-	private static boolean always(BlockState blockState, BlockView blockView, BlockPos blockPos) {
-		return true;
-	}
-
-	private static boolean never(BlockState blockState, BlockView blockView, BlockPos blockPos) {
-		return false;
-	}
-
+	
 	public static class ChalkVariant {
 		public Item chalkItem;
 		public Block chalkBlock;
@@ -115,8 +104,8 @@ public class ChalkRegistry {
 		}
 
 		public void registerClient() {
-			BlockRenderLayerMap.INSTANCE.putBlock(this.chalkBlock, RenderLayer.getCutout());
-			BlockRenderLayerMap.INSTANCE.putBlock(this.glowChalkBlock, RenderLayer.getCutout());
+			BlockRenderLayerMap.putBlock(this.chalkBlock, BlockRenderLayer.CUTOUT);
+			BlockRenderLayerMap.putBlock(this.glowChalkBlock, BlockRenderLayer.CUTOUT);
 			ColorProviderRegistry.BLOCK.register((state, world, pos, index) -> color, chalkBlock);
 			ColorProviderRegistry.BLOCK.register((state, world, pos, index) -> color, glowChalkBlock);
 		}
