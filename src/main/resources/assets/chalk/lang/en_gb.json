@@ -77,16 +77,5 @@
   "item.chalk.black_chalk": "Black Chalk",
   "block.chalk.black_chalk_mark": "Black Chalk Mark",
   "item.chalk.black_glow_chalk": "Black Glow Chalk",
-  "block.chalk.black_glow_chalk_mark": "Black Glow Chalk Mark",
-
-  "gui.chalk.config.title": "Chalk Config",
-  "gui.chalk.config.emit_particles": "Emit Particles: %s",
-  "gui.chalk.config.emit_particles.hover": "Toggles weather particles are emitted when placing chalk",
-  "gui.chalk.config.addons": "Available Addons:",
-  "gui.chalk.config.addons.colorful_addon": "Chalk: Colorful Addon",
-  "gui.chalk.config.addons.colorful_addon.hover": "Adds Chalk in the 15 different minecraft colours (with the default chalk being white)",
-  "gui.chalk.config.reset": "Reset Config",
-  "gui.chalk.config.reset.hover": "Resets all config values",
-  "gui.chalk.config.back": "Back",
-  "gui.chalk.config.back.hover": "Saves config and returns to the previous screen"
+  "block.chalk.black_glow_chalk_mark": "Black Glow Chalk Mark"
 }

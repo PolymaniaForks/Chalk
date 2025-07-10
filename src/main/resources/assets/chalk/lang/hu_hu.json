@@ -79,14 +79,6 @@
   "item.chalk.black_glow_chalk": "Világító fekete kréta",
   "block.chalk.black_glow_chalk_mark": "Világító fekete krétajel",
 
-  "gui.chalk.config.title": "Kréta konfiguráció",
-  "gui.chalk.config.emit_particles": "Részecskék: %s",
-  "gui.chalk.config.emit_particles.hover": "Részecskék engedélyezése a kréta használatakor",
-  "gui.chalk.config.addons": "Javasolt Addon:",
-  "gui.chalk.config.addons.colorful_addon": "Szines kréta Addon",
-  "gui.chalk.config.addons.colorful_addon.hover": "Kréta 15 különféle színben (az alapértelmezett a fehér)",
-  "gui.chalk.config.reset": "Alaphelyzet",
-  "gui.chalk.config.reset.hover": "Alapértelmezett konfiguráció visszaállítása",
-  "gui.chalk.config.back": "Vissza",
-  "gui.chalk.config.back.hover": "Változtatások mentése és visszalépés az előző lapra"
+  "text.autoconfig.Chalk.title": "Kréta konfiguráció",
+  "text.autoconfig.Chalk.option.EmitParticles": "Részecskék engedélyezése a kréta használatakor"
 }

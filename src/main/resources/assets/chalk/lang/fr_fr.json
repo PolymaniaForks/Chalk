@@ -79,15 +79,7 @@
   "item.chalk.black_glow_chalk": "Craie noire luisante",
   "block.chalk.black_glow_chalk_mark": "Marque de craie noire luisante",
 
-  "gui.chalk.config.title": "Configuration de Chalk",
-  "gui.chalk.config.emit_particles": "Émission de particules : %s",
-  "gui.chalk.config.emit_particles.hover": "Active ou désactive l'émission de particules en plaçant de la craie",
-  "gui.chalk.config.addons": "Greffons disponibles :",
-  "gui.chalk.config.addons.colorful_addon": "Chalk: Colorful Addon",
-  "gui.chalk.config.addons.colorful_addon.hover": "Ajoute la craie dans les 15 couleurs de Minecraft (la craie par défaut étant blanche)",
-  "gui.chalk.config.reset": "Réinitialiser",
-  "gui.chalk.config.reset.hover": "Réinitialise toutes les valeurs de configuration",
-  "gui.chalk.config.back": "Retour",
-  "gui.chalk.config.back.hover": "Enregistre la configuration et retourne à l'écran précédent"
+  "text.autoconfig.Chalk.title": "Configuration de Chalk",
+  "text.autoconfig.Chalk.option.EmitParticles": "Active ou désactive l'émission de particules en plaçant de la craie"
 }
 

@@ -79,14 +79,6 @@
   "item.chalk.black_glow_chalk": "Tiza Negra Brillante",
   "block.chalk.black_glow_chalk_mark": "Marca de Tiza Negra Brillante",
 
-  "gui.chalk.config.title": "Configuración de Tiza",
-  "gui.chalk.config.emit_particles": "Emitir Partículas: %s",
-  "gui.chalk.config.emit_particles.hover": "Activa o desactiva la emisión de partículas al colocar tiza",
-  "gui.chalk.config.addons": "Complementos Disponibles:",
-  "gui.chalk.config.addons.colorful_addon": "Tiza: Complemento Colorido",
-  "gui.chalk.config.addons.colorful_addon.hover": "Agrega tiza en los 15 diferentes colores de Minecraft (siendo la tiza predeterminada de color blanco)",
-  "gui.chalk.config.reset": "Restablecer Configuración",
-  "gui.chalk.config.reset.hover": "Restablece todos los valores de configuración",
-  "gui.chalk.config.back": "Volver",
-  "gui.chalk.config.back.hover": "Guarda la configuración y vuelve a la pantalla anterior"
+  "text.autoconfig.Chalk.title": "Configuración de Tiza",
+  "text.autoconfig.Chalk.option.EmitParticles": "Activa o desactiva la emisión de partículas al colocar tiza"
 }
