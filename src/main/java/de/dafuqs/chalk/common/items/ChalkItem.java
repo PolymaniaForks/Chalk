@@ -2,13 +2,16 @@ package de.dafuqs.chalk.common.items;
 
 import de.dafuqs.chalk.common.*;
 import de.dafuqs.chalk.common.blocks.ChalkMarkBlock;
+import eu.pb4.polymer.core.api.item.PolymerItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -19,8 +22,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import xyz.nucleoid.packettweaker.PacketContext;
 
-public class ChalkItem extends Item {
+public class ChalkItem extends Item implements PolymerItem {
 	protected DyeColor dyeColor;
 
 	public ChalkItem(Settings settings, DyeColor dyeColor) {
@@ -36,7 +40,7 @@ public class ChalkItem extends Item {
 		final PlayerEntity player = context.getPlayer();
 		final ItemStack stack = context.getStack();
 		Direction clickedFace = context.getSide();
-		BlockPos markPosition = pos.offset(clickedFace);
+		BlockPos markPosition = clickedBlockState.isReplaceable() ?  pos: pos.offset(clickedFace);
 		if (world.isAir(markPosition) || world.getBlockState(markPosition).getBlock() instanceof ChalkMarkBlock) {
 			if (clickedBlockState.getBlock() instanceof ChalkMarkBlock) { // replace mark
 				clickedFace = clickedBlockState.get(ChalkMarkBlock.FACING);
@@ -49,12 +53,9 @@ public class ChalkItem extends Item {
 				return ActionResult.PASS;
 			}
 
-			if (world.isClient) {
+			if (world instanceof ServerWorld serverWorld) {
 				Random random = world.getRandom();
-				if (Chalk.CONFIG.EmitParticles) {
-					world.addParticleClient(ParticleTypes.CLOUD, markPosition.getX() + (0.5 * (random.nextFloat() + 0.4)), markPosition.getY() + 0.65, markPosition.getZ() + (0.5 * (random.nextFloat() + 0.4)), 0.0D, 0.005D, 0.0D);
-				}
-				return ActionResult.SUCCESS;
+					serverWorld.spawnParticles(new DustParticleEffect(this.dyeColor.getFireworkColor(), 0.5f), pos.getX() + (0.5 * (random.nextFloat() + 0.15)), pos.getY() + 0.3, pos.getZ() + (0.5 * (random.nextFloat() + 0.15)), 0, 0.0D, 0.0D, 0.0D, 0);
 			}
 
 			final int orientation = getClickedRegion(context.getHitPos(), clickedFace);
@@ -72,7 +73,7 @@ public class ChalkItem extends Item {
 					stack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
 				}
 				world.playSound(null, markPosition, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundCategory.BLOCKS, 0.6f, world.random.nextFloat() * 0.2f + 0.8f);
-				return ActionResult.CONSUME;
+				return ActionResult.SUCCESS_SERVER;
 			}
 		}
 		return ActionResult.FAIL;
@@ -110,5 +111,10 @@ public class ChalkItem extends Item {
 			case WEST, EAST -> blockreg(Math.min(2, (int) (3 * (1 - dy))), Math.min(2, (int) (3 * dz)));
 			default -> blockreg(Math.min(2, (int) (3 * dz)), Math.min(2, (int) (3 * dx)));
 		};
+	}
+
+	@Override
+	public Item getPolymerItem(ItemStack itemStack, PacketContext packetContext) {
+		return Items.TRIAL_KEY;
 	}
 }

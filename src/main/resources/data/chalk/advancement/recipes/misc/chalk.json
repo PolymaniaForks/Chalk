@@ -1,0 +1,63 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:calcite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "recipe_1": {
+      "conditions": {
+        "recipe": "chalk:crafting_table/white_chalk"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "recipe_1",
+      "item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "chalk:crafting_table/white_chalk",
+      "chalk:crafting_table/red_chalk",
+      "chalk:crafting_table/yellow_chalk",
+      "chalk:crafting_table/gray_chalk",
+      "chalk:crafting_table/light_gray_chalk",
+      "chalk:crafting_table/magenta_chalk",
+      "chalk:crafting_table/blue_chalk",
+      "chalk:crafting_table/black_chalk",
+      "chalk:crafting_table/cyan_chalk",
+      "chalk:crafting_table/brown_chalk",
+      "chalk:crafting_table/green_chalk",
+      "chalk:crafting_table/light_blue_chalk",
+      "chalk:crafting_table/orange_chalk",
+      "chalk:crafting_table/pink_chalk",
+      "chalk:crafting_table/lime_chalk",
+      "chalk:crafting_table/purple_chalk",
+      "chalk:crafting_table/white_glow_chalk",
+      "chalk:crafting_table/red_glow_chalk",
+      "chalk:crafting_table/yellow_glow_chalk",
+      "chalk:crafting_table/gray_glow_chalk",
+      "chalk:crafting_table/light_gray_glow_chalk",
+      "chalk:crafting_table/magenta_glow_chalk",
+      "chalk:crafting_table/blue_glow_chalk",
+      "chalk:crafting_table/black_glow_chalk",
+      "chalk:crafting_table/cyan_glow_chalk",
+      "chalk:crafting_table/brown_glow_chalk",
+      "chalk:crafting_table/green_glow_chalk",
+      "chalk:crafting_table/light_blue_glow_chalk",
+      "chalk:crafting_table/orange_glow_chalk",
+      "chalk:crafting_table/pink_glow_chalk",
+      "chalk:crafting_table/lime_glow_chalk",
+      "chalk:crafting_table/purple_glow_chalk"
+    ]
+  }
+}

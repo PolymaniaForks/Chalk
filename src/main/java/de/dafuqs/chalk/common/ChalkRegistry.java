@@ -2,6 +2,8 @@ package de.dafuqs.chalk.common;
 
 import de.dafuqs.chalk.common.blocks.*;
 import de.dafuqs.chalk.common.items.*;
+import de.dafuqs.chalk.common.poly.BlockStateModelManager;
+import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
 import net.fabricmc.loader.api.*;
@@ -11,9 +13,12 @@ import net.minecraft.client.render.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.*;
 import net.minecraft.sound.*;
+import net.minecraft.text.Text;
 import net.minecraft.util.*;
 
 import java.util.*;
+
+import static de.dafuqs.chalk.common.Chalk.id;
 
 public class ChalkRegistry {
 	
@@ -37,12 +42,27 @@ public class ChalkRegistry {
 		put(DyeColor.RED, 0x8f2121);
 		put(DyeColor.BLACK, 0x171717);
 	}};
-	
+
+	public static final List<DyeColor> COLORS_CREATIVE = List.of(DyeColor.WHITE,
+			DyeColor.LIGHT_GRAY,
+			DyeColor.GRAY,
+			DyeColor.BLACK,
+			DyeColor.BROWN,
+			DyeColor.RED,
+			DyeColor.ORANGE,
+			DyeColor.YELLOW,
+			DyeColor.LIME,
+			DyeColor.GREEN,
+			DyeColor.CYAN,
+			DyeColor.LIGHT_BLUE,
+			DyeColor.BLUE,
+			DyeColor.PURPLE,
+			DyeColor.MAGENTA,
+			DyeColor.PINK);
+
 	public static Map<DyeColor, ChalkRegistry.ChalkVariant> chalkVariants = new HashMap<>();
 
 	public static void init() {
-		boolean addonLoaded = FabricLoader.getInstance().isModLoaded("chalk-colorful-addon");
-		
 		/*
 		 * colored chalk variants are only added if the colorful addon is installed
 		 * this allows chalk to use the "chalk" mod to use the chalk namespace for all functionality
@@ -52,18 +72,21 @@ public class ChalkRegistry {
 			DyeColor dyeColor = entry.getKey();
 			int color = entry.getValue();
 			
-			if (dyeColor.equals(DyeColor.WHITE) || addonLoaded) {
-				new ChalkRegistry.ChalkVariant(dyeColor, color);
-			}
+			new ChalkRegistry.ChalkVariant(dyeColor, color);
 		}
-		
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(fabricItemGroupEntries -> {
-			for(ChalkVariant chalkVariant1 : chalkVariants.values()) {
-				fabricItemGroupEntries.add(chalkVariant1.chalkItem);
-				fabricItemGroupEntries.add(chalkVariant1.glowChalkItem);
-			}
-		});
-		
+
+		PolymerItemGroupUtils.registerPolymerItemGroup(id("chalk"), PolymerItemGroupUtils.builder()
+				.icon(() -> chalkVariants.get(DyeColor.WHITE).chalkItem.getDefaultStack())
+						.displayName(Text.translatable("item_group.chalk"))
+						.entries(((displayContext, entries) -> {
+							for (var color : COLORS_CREATIVE) {
+								entries.add(chalkVariants.get(color).chalkItem);
+								entries.add(chalkVariants.get(color).glowChalkItem);
+							}
+						}))
+				.build());
+
+
 	}
 	
 	public static class ChalkVariant {
@@ -78,11 +101,11 @@ public class ChalkRegistry {
 			this.color = color;
 			this.colorString = dyeColor.toString();
 			
-			Identifier itemId = Chalk.id(colorString + "_chalk");
-			Identifier blockId = Chalk.id(colorString + "_chalk_mark");
+			Identifier itemId = id(colorString + "_chalk");
+			Identifier blockId = id(colorString + "_chalk_mark");
 			
-			Identifier glowItemId = Chalk.id(colorString + "_glow_chalk");
-			Identifier glowBlockId = Chalk.id(colorString + "_glow_chalk_mark");
+			Identifier glowItemId = id(colorString + "_glow_chalk");
+			Identifier glowBlockId = id(colorString + "_glow_chalk_mark");
 			
 			RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, itemId);
 			RegistryKey<Block> blockKey = RegistryKey.of(RegistryKeys.BLOCK, blockId);
@@ -101,13 +124,9 @@ public class ChalkRegistry {
 			Registry.register(Registries.BLOCK, glowBlockId, glowChalkBlock);
 			
 			chalkVariants.put(dyeColor, this);
-		}
 
-		public void registerClient() {
-			BlockRenderLayerMap.putBlock(this.chalkBlock, BlockRenderLayer.CUTOUT);
-			BlockRenderLayerMap.putBlock(this.glowChalkBlock, BlockRenderLayer.CUTOUT);
-			ColorProviderRegistry.BLOCK.register((state, world, pos, index) -> color, chalkBlock);
-			ColorProviderRegistry.BLOCK.register((state, world, pos, index) -> color, glowChalkBlock);
+			BlockStateModelManager.addBlock(blockId, this.chalkBlock, dyeColors.get(dyeColor));
+			BlockStateModelManager.addBlock(glowBlockId, this.glowChalkBlock, dyeColors.get(dyeColor));
 		}
 	}
 }
