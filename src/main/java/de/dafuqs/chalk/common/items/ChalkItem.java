@@ -70,7 +70,7 @@ public class ChalkItem extends Item implements PolymerItem {
 					if (stack.getDamage() >= stack.getMaxDamage()) {
 						world.playSound(null, markPosition, SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.BLOCKS, 0.5f, 1f);
 					}
-					stack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
+					stack.damage(1, player, context.getHand());
 				}
 				world.playSound(null, markPosition, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundCategory.BLOCKS, 0.6f, world.random.nextFloat() * 0.2f + 0.8f);
 				return ActionResult.SUCCESS_SERVER;

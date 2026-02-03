@@ -1,14 +1,16 @@
 package de.dafuqs.chalk.common.blocks;
 
 import de.dafuqs.chalk.common.*;
-import de.dafuqs.chalk.common.poly.BlockStateModel;
 import eu.pb4.factorytools.api.block.FactoryBlock;
-import eu.pb4.factorytools.api.virtualentity.BlockModel;
+import eu.pb4.factorytools.api.block.model.generic.BlockStateModel;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.elements.InteractionElement;
+import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.VirtualElement;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.MapColorComponent;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraft.network.packet.c2s.play.PickItemFromBlockC2SPacket;
@@ -31,6 +33,8 @@ import net.minecraft.world.*;
 import net.minecraft.world.tick.*;
 import org.jetbrains.annotations.*;
 import xyz.nucleoid.packettweaker.PacketContext;
+
+import static de.dafuqs.chalk.common.ChalkRegistry.dyeColors;
 
 public class ChalkMarkBlock extends Block implements FactoryBlock {
 
@@ -127,18 +131,27 @@ public class ChalkMarkBlock extends Block implements FactoryBlock {
 
 	@Override
 	public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState initialBlockState) {
-		return new Model(initialBlockState);
+		return new Model(initialBlockState, pos);
 	}
 
-	public static class Model extends BlockStateModel {
+	public class Model extends BlockStateModel {
 		private InteractionElement[] interactionElements;
 
-		public Model(BlockState blockState) {
-            super(blockState);
+		public Model(BlockState blockState, BlockPos pos) {
+            super(blockState, pos, 1);
+			this.applyUpdates(blockState, pos);
 		}
 
 		@Override
-		protected void applyUpdates(BlockState blockState) {
+		protected void applyUpdates(BlockState blockState, BlockPos pos) {
+			for (var element : this.getElements()) {
+				if (element instanceof ItemDisplayElement itemDisplayElement) {
+					var stack = itemDisplayElement.getItem().copy();
+					stack.set(DataComponentTypes.MAP_COLOR, new MapColorComponent(dyeColors.get(dyeColor)));
+					itemDisplayElement.setItem(stack);
+				}
+			}
+
 			if (interactionElements == null) {
 				interactionElements = new InteractionElement[0];
 			}

@@ -2,7 +2,7 @@ package de.dafuqs.chalk.common;
 
 import de.dafuqs.chalk.common.blocks.*;
 import de.dafuqs.chalk.common.items.*;
-import de.dafuqs.chalk.common.poly.BlockStateModelManager;
+import eu.pb4.factorytools.api.block.model.generic.BlockStateModelManager;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
@@ -125,8 +125,8 @@ public class ChalkRegistry {
 			
 			chalkVariants.put(dyeColor, this);
 
-			BlockStateModelManager.addBlock(blockId, this.chalkBlock, dyeColors.get(dyeColor));
-			BlockStateModelManager.addBlock(glowBlockId, this.glowChalkBlock, dyeColors.get(dyeColor));
+			BlockStateModelManager.addSolidBlock(blockId, this.chalkBlock);
+			BlockStateModelManager.addSolidBlock(glowBlockId, this.glowChalkBlock);
 		}
 	}
 }
