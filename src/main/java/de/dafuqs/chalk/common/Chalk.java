@@ -6,6 +6,7 @@ import eu.pb4.polymer.resourcepack.extras.api.format.item.ItemAsset;
 import eu.pb4.polymer.resourcepack.extras.api.format.item.model.BasicItemModel;
 import eu.pb4.polymer.resourcepack.extras.api.format.item.tint.MapColorTintSource;
 import net.fabricmc.api.*;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.*;
 import org.jetbrains.annotations.*;
 
@@ -26,7 +27,7 @@ public class Chalk implements ModInitializer {
 	
 	@Contract(value = "_ -> new", pure = true)
 	public static @NotNull Identifier id(String name) {
-		return Identifier.of(MOD_ID, name);
+		return Identifier.fromNamespaceAndPath(MOD_ID, name);
 	}
 	
 }
