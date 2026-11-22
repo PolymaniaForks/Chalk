@@ -21,10 +21,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.MapItemColor;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -78,19 +79,14 @@ public class ChalkMarkBlock extends Block implements FactoryBlock {
     }
 
     @Override
-    public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
-        super.playerDestroy(world, player, pos, state, blockEntity, stack);
-    }
-
-    @Override
     protected ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {
         return ChalkRegistry.chalkVariants.get(dyeColor).chalkItem.getDefaultInstance();
     }
 
     @Override
-    protected void spawnDestroyParticles(Level world, Player player, BlockPos pos, BlockState state) {
-        RandomSource random = world.getRandom();
-        if (world instanceof ServerLevel serverWorld) {
+    public void spawnDestroyByEntityParticles(Level level, @org.jspecify.annotations.Nullable Entity entity, BlockPos pos, BlockState state) {
+        RandomSource random = level.getRandom();
+        if (level instanceof ServerLevel serverWorld) {
             serverWorld.playSound(null, pos, SoundEvents.WART_BLOCK_HIT, SoundSource.BLOCKS, 0.5f, random.nextFloat() * 0.2f + 0.8f);
             serverWorld.sendParticles(new DustParticleOptions(this.dyeColor.getFireworkColor(), 0.5f), pos.getX() + (0.5 * (random.nextFloat() + 0.15)), pos.getY() + 0.3, pos.getZ() + (0.5 * (random.nextFloat() + 0.15)), 0, 0.0D, 0.0D, 0.0D, 0);
         }
@@ -158,7 +154,7 @@ public class ChalkMarkBlock extends Block implements FactoryBlock {
             for (var element : this.getElements()) {
                 if (element instanceof ItemDisplayElement itemDisplayElement) {
                     var stack = itemDisplayElement.getItem().copy();
-                    stack.set(DataComponents.MAP_COLOR, new MapItemColor(dyeColors.get(dyeColor)));
+                    stack.set(DataComponents.DYED_COLOR, new DyedItemColor(dyeColors.get(dyeColor)));
                     itemDisplayElement.setItem(stack);
                 }
             }
